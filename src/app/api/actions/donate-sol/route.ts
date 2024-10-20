@@ -80,14 +80,16 @@ export const POST = async (req: Request) => {
   try {
     const requestUrl = new URL(req.url);
     const { amount, toAddress } = validatedQueryParams(requestUrl);
-
+    console.log( 'new amount', amount, 'toAddress', toAddress);
     const body: ActionPostRequest = await req.json();
 
     // Validate the client provided input
     let fromAddress: string;
     try {
-      fromAddress = ethers.getAddress(body.account);
+      fromAddress = body.account;
+      console.log('fromAddress', fromAddress);
     } catch (err) {
+      console.log('err in body.account', err);
       return new Response('Invalid "account" provided', {
         status: 400,
         headers,
@@ -95,7 +97,7 @@ export const POST = async (req: Request) => {
     }
 
     // Create a provider (you may want to use a different provider based on your setup)
-    const provider = new ethers.JsonRpcProvider('https://public-node.testnet.rsk.co');
+    const provider = new ethers.JsonRpcProvider('https://eth.llamarpc.com');
 
     // Get the current nonce for the fromAddress
     const nonce = await provider.getTransactionCount(fromAddress, 'pending');
@@ -122,7 +124,7 @@ export const POST = async (req: Request) => {
     };
 
     // Serialize the transaction
-    const serializedTx = ethers.Transaction.from(transaction).serialized;
+    const serializedTx = ethers.Transaction.from(transaction).unsignedSerialized;
 
     const payload: ActionPostResponse = await createPostResponse({
       fields: {
@@ -148,7 +150,7 @@ export const POST = async (req: Request) => {
 
 function validatedQueryParams(requestUrl: URL) {
   let toAddress: string = '0x742d35Cc6634C0532925a3b844Bc454e4438f44e';
-  let amount: number = 0.1;
+  let amount: number = 0.000001;
 
   try {
     if (requestUrl.searchParams.get('to')) {
