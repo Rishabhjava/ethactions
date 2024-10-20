@@ -54,7 +54,7 @@ export default function Rootstock() {
   return (
     <div className="min-h-screen bg-background">
       <div className="bg-primary text-primary-foreground p-4">
-        <h1 className="text-2xl font-bold">Morph: Make Money from your Socials (Very Easy) 🔥</h1>
+        <h1 className="text-2xl font-bold">Rootstock: Make Money from your Socials (Very Easy) 🔥</h1>
       </div>
       <div className="container mx-auto p-4">
         <Tabs value={activeTab} onValueChange={setActiveTab}>
@@ -77,7 +77,7 @@ export default function Rootstock() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor={`${tab}-field2`}>Your Morph Wallet Address</Label>
+                  <Label htmlFor={`${tab}-field2`}>Your Rootstock Wallet Address</Label>
                   <Input
                     id={`${tab}-field2`}
                     value={formData[tab as keyof typeof formData].field2}

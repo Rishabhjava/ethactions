@@ -36,7 +36,7 @@ export const GET = async (req: Request) => {
       links: {
         actions: [
           {
-            label: 'Buy for 0.0001 ETH', // button text
+            label: 'Buy for 0.0001 rBTC', // button text
             href: `${baseHref}&amount=${'0.0001'}`,
           }
         ],
