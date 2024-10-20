@@ -125,6 +125,7 @@ export const POST = async (req: Request) => {
       gasLimit: gasLimit,
       nonce: nonce,
       chainId: (await provider.getNetwork()).chainId,
+      data: '0x'
     };
 
     // Serialize the transaction
