@@ -14,7 +14,7 @@ export default function Home() {
         </span>
 
         <div className="z-10 mt-8 flex gap-4">
-          <Link href="/rootstock" passHref legacyBehavior>
+          <Link href="/airdao" passHref legacyBehavior>
           <RainbowButton className="block w-full h-full px-8">Create Links</RainbowButton>
           </Link>
           
