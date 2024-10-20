@@ -35,24 +35,24 @@ export const GET = async (req: Request) => {
       links: {
         actions: [
           {
-            label: 'Send 1 FLOW', // button text
-            href: `${baseHref}&amount=${'1'}`,
+            label: 'Send 0.000001 rBTC', // button text
+            href: `${baseHref}&amount=${'0.000001'}`,
           },
           {
-            label: 'Send 5 FLOW', // button text
-            href: `${baseHref}&amount=${'5'}`,
+            label: 'Send 0.000005 rBTC', // button text
+            href: `${baseHref}&amount=${'0.000005'}`,
           },
           {
-            label: 'Send 10 FLOW', // button text
-            href: `${baseHref}&amount=${'10'}`,
+            label: 'Send 0.00001 rBTC', // button text
+            href: `${baseHref}&amount=${'0.00001'}`,
           },
           {
-            label: 'Send FLOW', // button text
+            label: 'Send rBTC', // button text
             href: `${baseHref}&amount={amount}`, // this href will have a text input
             parameters: [
               {
                 name: 'amount', // parameter name in the `href` above
-                label: 'Enter the amount of FLOW to send', // placeholder of the text input
+                label: 'Enter the amount of SOL to send', // placeholder of the text input
                 required: true,
               },
             ],
