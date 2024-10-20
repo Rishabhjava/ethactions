@@ -22,11 +22,12 @@ export const GET = async (req: Request) => {
     const { toPubkey } = validatedQueryParams(requestUrl);
 
     const baseHref = new URL(
-      `/api/actions/donate-sol?to=${toPubkey.toBase58()}`,
+      `/api/solana-actions/donate-sol?to=${toPubkey.toBase58()}`,
       requestUrl.origin,
     ).toString();
 
-    const payload: ActionGetResponse = {
+    const payload: any = {
+      isEthereum: true,
       type: 'action',
       title: 'Donate SOL to Alice',
       icon: 'https://ucarecdn.com/7aa46c85-08a4-4bc7-9376-88ec48bb1f43/-/preview/880x864/-/quality/smart/-/format/auto/',
