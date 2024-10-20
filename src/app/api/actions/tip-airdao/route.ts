@@ -16,28 +16,47 @@ const headers = createActionHeaders({
 export const GET = async (req: Request) => {
   try {
     const requestUrl = new URL(req.url);
-    const { imageUrl, toAddress } = validatedQueryParams(requestUrl);
+    const { toAddress } = validatedQueryParams(requestUrl);
 
     const baseHref = new URL(
-      `/api/actions/shop-morph?to=${toAddress}&`,
+      `/api/actions/tip-airdao?to=${toAddress}`,
       requestUrl.origin,
     ).toString();
 
     const payload: any = {
       isEthereum: true,
-      chain: '0x' + BigInt(2810).toString(16),
+      chain: '0x' + BigInt(22040).toString(16),
       type: 'action',
-      title: 'Buy with Morpheus',
-      icon: imageUrl,
+      title: 'Tip The Creator with AirDAO!',
+      icon: 'https://ucarecdn.com/7aa46c85-08a4-4bc7-9376-88ec48bb1f43/-/preview/880x864/-/quality/smart/-/format/auto/',
       description:
-        'Use Morpheus and Support a small business!',
+        'Support your favorite creator with AirDAO!',
       label: 'Transfer', // this value will be ignored since `links.actions` exists
       links: {
         actions: [
           {
-            label: 'Buy for 0.0001 ETH', // button text
-            href: `${baseHref}&amount=${'0.0001'}`,
-          }
+            label: 'Tip 1 AMB', // button text
+            href: `${baseHref}&amount=${'1'}`,
+          },
+          {
+            label: 'Tip 5 AMB', // button text
+            href: `${baseHref}&amount=${'5'}`,
+          },
+          {
+            label: 'Tip 10 AMB', // button text
+            href: `${baseHref}&amount=${'10'}`,
+          },
+          {
+            label: 'Tip AMB', // button text
+            href: `${baseHref}&amount={amount}`, // this href will have a text input
+            parameters: [
+              {
+                name: 'amount', // parameter name in the `href` above
+                label: 'Enter the amount of AMB to tip', // placeholder of the text input
+                required: true,
+              },
+            ],
+          },
         ],
       },
     };
@@ -84,7 +103,7 @@ export const POST = async (req: Request) => {
 
 
     // Create a provider (you may want to use a different provider based on your setup)
-    const provider = new ethers.JsonRpcProvider('https://rpc-quicknode-holesky.morphl2.io');
+    const provider = new ethers.JsonRpcProvider('https://network.ambrosus-test.io');
 
     // Get the current nonce for the fromAddress
     const nonce = await provider.getTransactionCount(fromAddress, 'pending');
@@ -138,20 +157,13 @@ export const POST = async (req: Request) => {
 function validatedQueryParams(requestUrl: URL) {
   let toAddress: string = '0x742d35Cc6634C0532925a3b844Bc454e4438f44e';
   let amount: number = 0.000001;
-  let imageUrl: string = 'https://ucarecdn.com/7aa46c85-08a4-4bc7-9376-88ec48bb1f43/-/preview/880x864/-/quality/smart/-/format/auto/';
+
   try {
     if (requestUrl.searchParams.get('to')) {
       toAddress = requestUrl.searchParams.get('to')!;
     }
   } catch (err) {
     throw 'Invalid input query parameter: to';
-  }
-  try {
-    if (requestUrl.searchParams.get('imageUrl')) {
-      imageUrl = requestUrl.searchParams.get('imageUrl')!;
-    }
-  } catch (err) {
-    throw 'Invalid input query parameter: imageUrl';
   }
 
   try {
@@ -167,6 +179,5 @@ function validatedQueryParams(requestUrl: URL) {
   return {
     amount,
     toAddress,
-    imageUrl,
   };
 }
