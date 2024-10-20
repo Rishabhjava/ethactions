@@ -7,7 +7,11 @@ import {
 } from '@solana/actions';
 import { ethers } from 'ethers';
 
-const headers = createActionHeaders();
+const headers = createActionHeaders({
+  chainId: 'mainnet',
+  actionVersion: '2.2.1',
+});
+
 
 export const GET = async (req: Request) => {
   try {
@@ -101,11 +105,11 @@ export const POST = async (req: Request) => {
 
     // Get the current nonce for the fromAddress
     const nonce = await provider.getTransactionCount(fromAddress, 'pending');
-
+    console.log('nonce', nonce);
     // Get the current gas price
     const feeData = await provider.getFeeData();
     const gasPrice = feeData.gasPrice;
-
+    console.log('gasPrice', gasPrice);
     // Estimate the gas limit
     const gasLimit = await provider.estimateGas({
       to: toAddress,
@@ -125,15 +129,16 @@ export const POST = async (req: Request) => {
 
     // Serialize the transaction
     const serializedTx = ethers.Transaction.from(transaction).unsignedSerialized;
+    console.log('serializedTx', serializedTx);
 
-    const payload: ActionPostResponse = await createPostResponse({
+    const payload: any = {
       fields: {
-        // @ts-ignore
+        //@ts-ignore
         transaction: serializedTx,
         message: `Prepared transaction to send ${amount} ETH to ${toAddress}`,
       },
-    });
-
+    };
+    console.log('BIG PAYLOAD', payload);
     return Response.json(payload, {
       headers,
     });
@@ -143,7 +148,7 @@ export const POST = async (req: Request) => {
     if (typeof err == 'string') message = err;
     return new Response(message, {
       status: 400,
-      headers,
+      headers
     });
   }
 };
