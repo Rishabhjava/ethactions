@@ -31,19 +31,19 @@ export const GET = async (req: Request) => {
       links: {
         actions: [
           {
-            label: 'Send 0.0001 ETH', // button text
-            href: `${baseHref}&amount=${'0.0001'}`,
+            label: 'Send 0.000001 rBTC', // button text
+            href: `${baseHref}&amount=${'0.000001'}`,
           },
           {
-            label: 'Send 0.0005 ETH', // button text
-            href: `${baseHref}&amount=${'0.0005'}`,
+            label: 'Send 0.000005 rBTC', // button text
+            href: `${baseHref}&amount=${'0.000005'}`,
           },
           {
-            label: 'Send 0.001 ETH', // button text
-            href: `${baseHref}&amount=${'0.001'}`,
+            label: 'Send 0.00001 rBTC', // button text
+            href: `${baseHref}&amount=${'0.00001'}`,
           },
           {
-            label: 'Send ETH', // button text
+            label: 'Send rBTC', // button text
             href: `${baseHref}&amount={amount}`, // this href will have a text input
             parameters: [
               {
