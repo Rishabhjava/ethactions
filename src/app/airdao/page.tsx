@@ -32,13 +32,13 @@ export default function Airdao() {
     
     switch (tab) {
       case 'tab1':
-        baseUrl = 'https://ethactions.vercel.app/api/actions/tip-creator'
+        baseUrl = 'https://ethactions.vercel.app/api/actions/tip-airdao'
         return `https://dial.to/?action=solana-action:${baseUrl}?to=${encodeURIComponent(field2)}&amount=${encodeURIComponent(field1)}`
       case 'tab2':
         baseUrl = 'https://ethactions.vercel.app/api/actions/mint-airdao'
         return `https://dial.to/?action=solana-action:${baseUrl}?imageUrl=${encodeURIComponent(field1)}&to=${encodeURIComponent(field2)}`
       case 'tab3':
-        baseUrl = 'https://ethactions.vercel.app/api/actions/sell-tickets'
+        baseUrl = 'https://ethactions.vercel.app/api/actions/airdao-tickets'
         return `https://dial.to/?action=solana-action:${baseUrl}?imageUrl=${encodeURIComponent(field1)}&to=${encodeURIComponent(field2)}`
       default:
         return ''
@@ -54,7 +54,7 @@ export default function Airdao() {
   return (
     <div className="min-h-screen bg-background">
       <div className="bg-primary text-primary-foreground p-4">
-        <h1 className="text-2xl font-bold">The Consumer Blockchain on Twitter!</h1>
+        <h1 className="text-2xl font-bold">AirDao: Monetize your Socials (Very Easy) 🔥</h1>
       </div>
       <div className="container mx-auto p-4">
         <Tabs value={activeTab} onValueChange={setActiveTab}>
@@ -84,17 +84,21 @@ export default function Airdao() {
                     onChange={(e) => handleInputChange(tab, 'field2', e.target.value)}
                   />
                 </div>
-                <div className="flex items-center space-x-2">
-                  <Input
+                <div className="space-y-2">
+                  <Label htmlFor={`${tab}-link`}>Generated Link (Post on Twitter!)</Label>
+                  <div className="flex items-center space-x-2">
+                    <Input
+                    id={`${tab}-link`}
                     value={generateOutputLink(tab)}
                     readOnly
                   />
                   <Button
                     size="icon"
                     onClick={() => copyToClipboard(generateOutputLink(tab))}
-                  >
-                    <Copy className="h-4 w-4" />
-                  </Button>
+                    >
+                      <Copy className="h-4 w-4" />
+                    </Button>
+                  </div>
                 </div>
                 {/* New iframe */}
                 <div className="mt-4">
