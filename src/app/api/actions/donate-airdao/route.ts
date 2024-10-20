@@ -22,7 +22,7 @@ export const GET = async (req: Request) => {
       `/api/actions/donate-airdao?to=${toAddress}`,
       requestUrl.origin,
     ).toString();
-    
+
     const payload: any = {
       isEthereum: true,
       chain: '0x' + BigInt(22040).toString(16),
@@ -30,29 +30,29 @@ export const GET = async (req: Request) => {
       title: 'Bet on the Lakers winning the NBA Championship?',
       icon: 'https://i.ibb.co/f4tzp8r/maxresdefault.jpg',
       description:
-        'Win 1000 FLOW if the Lakers win the NBA Championship!',
+        'Win 1000 AMB if the Lakers win the NBA Championship!',
       label: 'Transfer', // this value will be ignored since `links.actions` exists
       links: {
         actions: [
           {
-            label: 'Bet 1 FLOW', // button text
+            label: 'Bet 1 AMB', // button text
             href: `${baseHref}&amount=${'1'}`,
           },
           {
-            label: 'Bet 5 FLOW', // button text
+            label: 'Bet 5 AMB', // button text
             href: `${baseHref}&amount=${'5'}`,
           },
           {
-            label: 'Bet 10 FLOW', // button text
+            label: 'Bet 10 AMB', // button text
             href: `${baseHref}&amount=${'10'}`,
           },
           {
-            label: 'Bet FLOW', // button text
+            label: 'Bet AMB', // button text
             href: `${baseHref}&amount={amount}`, // this href will have a text input
             parameters: [
               {
                 name: 'amount', // parameter name in the `href` above
-                label: 'Enter the amount of FLOW to bet', // placeholder of the text input
+                label: 'Enter the amount of AMB to bet', // placeholder of the text input
                 required: true,
               },
             ],
