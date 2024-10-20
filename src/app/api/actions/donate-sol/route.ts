@@ -21,7 +21,6 @@ export const GET = async (req: Request) => {
 
     const payload: any = {
       isEthereum: true,
-      chain: '31',
       type: 'action',
       title: 'Donate SOL to Alice',
       icon: 'https://ucarecdn.com/7aa46c85-08a4-4bc7-9376-88ec48bb1f43/-/preview/880x864/-/quality/smart/-/format/auto/',
