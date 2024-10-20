@@ -30,19 +30,19 @@ export const GET = async (req: Request) => {
       links: {
         actions: [
           {
-            label: 'Send 1 SOL', // button text
-            href: `${baseHref}&amount=${'1'}`,
+            label: 'Send 0.0001 ETH', // button text
+            href: `${baseHref}&amount=${'0.0001'}`,
           },
           {
-            label: 'Send 5 SOL', // button text
-            href: `${baseHref}&amount=${'5'}`,
+            label: 'Send 0.0005 ETH', // button text
+            href: `${baseHref}&amount=${'0.0005'}`,
           },
           {
-            label: 'Send 10 SOL', // button text
-            href: `${baseHref}&amount=${'10'}`,
+            label: 'Send 0.001 ETH', // button text
+            href: `${baseHref}&amount=${'0.001'}`,
           },
           {
-            label: 'Send SOL', // button text
+            label: 'Send ETH', // button text
             href: `${baseHref}&amount={amount}`, // this href will have a text input
             parameters: [
               {
