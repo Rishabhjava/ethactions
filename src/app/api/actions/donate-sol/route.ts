@@ -132,11 +132,9 @@ export const POST = async (req: Request) => {
     console.log('serializedTx', serializedTx);
 
     const payload: any = {
-      fields: {
-        //@ts-ignore
-        transaction: serializedTx,
-        message: `Prepared transaction to send ${amount} ETH to ${toAddress}`,
-      },
+      //@ts-ignore
+      transaction: serializedTx,
+      message: `Prepared transaction to send ${amount} ETH to ${toAddress}`,
     };
     console.log('BIG PAYLOAD', payload);
     return Response.json(payload, {
