@@ -7,10 +7,11 @@ import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import { Copy } from "lucide-react"
 
-export default function Flow() {
+export default function Skale() {
   const [formData, setFormData] = useState({
-    tab1: { field1: 'Team Name', field2: 'Your Flow Wallet Address' },
-    tab2: { field1: 'Event Banner', field2: 'Your Flow Wallet Address' },
+    tab1: { field1: 'Your Name', field2: 'Your Skale Wallet Address' },
+    tab2: { field1: 'Mint NFT', field2: 'Your Skale Wallet Address' },
+    tab3: { field1: 'Event Banner', field2: 'Your Skale Wallet Address' },
   })
 
   const [activeTab, setActiveTab] = useState('tab1')
@@ -31,10 +32,10 @@ export default function Flow() {
     
     switch (tab) {
       case 'tab1':
-        baseUrl = 'https://ethactions.vercel.app/api/actions/bet-flow'
+        baseUrl = 'https://ethactions.vercel.app/api/actions/donate-skale'
         return `https://dial.to/?action=solana-action:${baseUrl}?to=${encodeURIComponent(field2)}&amount=${encodeURIComponent(field1)}`
       case 'tab2':
-        baseUrl = 'https://ethactions.vercel.app/api/actions/mint-flow'
+        baseUrl = 'https://ethactions.vercel.app/api/actions/mint-skale'
         return `https://dial.to/?action=solana-action:${baseUrl}?imageUrl=${encodeURIComponent(field1)}&to=${encodeURIComponent(field2)}`
       case 'tab3':
         baseUrl = 'https://ethactions.vercel.app/api/actions/flow-tickets'
@@ -53,7 +54,7 @@ export default function Flow() {
   return (
     <div className="min-h-screen bg-background">
       <div className="bg-primary text-primary-foreground p-4">
-        <h1 className="text-2xl font-bold">AirDao: Monetize your Socials (Very Easy) 🔥</h1>
+        <h1 className="text-2xl font-bold">Skale: Twitter 🫂 Blockchain (Very Easy) 🔥</h1>
       </div>
       <div className="container mx-auto p-4">
         <Tabs value={activeTab} onValueChange={setActiveTab}>

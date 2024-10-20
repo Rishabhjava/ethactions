@@ -16,27 +16,27 @@ const headers = createActionHeaders({
 export const GET = async (req: Request) => {
   try {
     const requestUrl = new URL(req.url);
-    const { toAddress, imageUrl } = validatedQueryParams(requestUrl);
+    const { imageUrl, toAddress } = validatedQueryParams(requestUrl);
 
     const baseHref = new URL(
-      `/api/actions/flow-tickets?to=${toAddress}`,
+      `/api/actions/mint-skale?to=${toAddress}`,
       requestUrl.origin,
     ).toString();
 
     const payload: any = {
       isEthereum: true,
-      chain: '0x' + BigInt(545).toString(16),
+      chain: '0x' + BigInt(974399131).toString(16),
       type: 'action',
-      title: 'Buy with FLOW AND WIN BIG!',
-      icon: 'https://i.ibb.co/M55QDjC/ticket-Banner.jpg',
+      title: 'Mint this Image as an NFT!',
+      icon: imageUrl,
       description:
-        'Buy Your Tickets to the Lakers Game with FLOW and WIN BIG!',
+        'Support this creator by minting their Tweet as an NFT!',
       label: 'Transfer', // this value will be ignored since `links.actions` exists
       links: {
         actions: [
           {
-            label: 'Buy Tickets Now', // button text
-            href: `${baseHref}&amount=${'10'}`,
+            label: 'Mint for 5 AMB', // button text
+            href: `${baseHref}&amount=${'5'}`,
           }
         ],
       },
@@ -84,7 +84,7 @@ export const POST = async (req: Request) => {
 
 
     // Create a provider (you may want to use a different provider based on your setup)
-    const provider = new ethers.JsonRpcProvider('https://testnet.evm.nodes.onflow.org/');
+    const provider = new ethers.JsonRpcProvider('https://testnet.skalenodes.com/v1/giant-half-dual-testnet');
 
     // Get the current nonce for the fromAddress
     const nonce = await provider.getTransactionCount(fromAddress, 'pending');
@@ -139,20 +139,12 @@ function validatedQueryParams(requestUrl: URL) {
   let toAddress: string = '0x742d35Cc6634C0532925a3b844Bc454e4438f44e';
   let amount: number = 0.000001;
   let imageUrl: string = '';
-
   try {
     if (requestUrl.searchParams.get('to')) {
       toAddress = requestUrl.searchParams.get('to')!;
     }
   } catch (err) {
     throw 'Invalid input query parameter: to';
-  }
-  try {
-    if (requestUrl.searchParams.get('imageUrl')) {
-      imageUrl = requestUrl.searchParams.get('imageUrl')!;
-    }
-  } catch (err) {
-    throw 'Invalid input query parameter: imageUrl';
   }
 
   try {
@@ -163,6 +155,14 @@ function validatedQueryParams(requestUrl: URL) {
     if (amount <= 0) throw 'amount is too small';
   } catch (err) {
     throw 'Invalid input query parameter: amount';
+  }
+
+  try {
+    if (requestUrl.searchParams.get('imageUrl')) {
+      imageUrl = requestUrl.searchParams.get('imageUrl')!;
+    }
+  } catch (err) {
+    throw 'Invalid input query parameter: imageUrl';
   }
 
   return {

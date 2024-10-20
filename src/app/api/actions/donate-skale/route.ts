@@ -16,28 +16,47 @@ const headers = createActionHeaders({
 export const GET = async (req: Request) => {
   try {
     const requestUrl = new URL(req.url);
-    const { toAddress, imageUrl } = validatedQueryParams(requestUrl);
+    const { toAddress } = validatedQueryParams(requestUrl);
 
     const baseHref = new URL(
-      `/api/actions/flow-tickets?to=${toAddress}`,
+      `/api/actions/donate-skale?to=${toAddress}`,
       requestUrl.origin,
     ).toString();
 
     const payload: any = {
       isEthereum: true,
-      chain: '0x' + BigInt(545).toString(16),
+      chain: '0x' + BigInt(974399131).toString(16),
       type: 'action',
-      title: 'Buy with FLOW AND WIN BIG!',
-      icon: 'https://i.ibb.co/M55QDjC/ticket-Banner.jpg',
+      title: 'Bet on the Lakers winning the NBA Championship?',
+      icon: 'https://i.ibb.co/f4tzp8r/maxresdefault.jpg',
       description:
-        'Buy Your Tickets to the Lakers Game with FLOW and WIN BIG!',
+        'Win 1000 AMB if the Lakers win the NBA Championship!',
       label: 'Transfer', // this value will be ignored since `links.actions` exists
       links: {
         actions: [
           {
-            label: 'Buy Tickets Now', // button text
-            href: `${baseHref}&amount=${'10'}`,
-          }
+            label: 'Bet 0.0001 sFuel', // button text
+            href: `${baseHref}&amount=${'0.0001'}`,
+          },
+          {
+            label: 'Bet 0.0005 sFuel', // button text
+            href: `${baseHref}&amount=${'0.0005'}`,
+          },
+          {
+            label: 'Bet 0.001 sFuel', // button text
+            href: `${baseHref}&amount=${'0.001'}`,
+          },
+          {
+            label: 'Bet sFuel', // button text
+            href: `${baseHref}&amount={amount}`, // this href will have a text input
+            parameters: [
+              {
+                name: 'amount', // parameter name in the `href` above
+                label: 'Enter the amount of sFuel to bet', // placeholder of the text input
+                required: true,
+              },
+            ],
+          },
         ],
       },
     };
@@ -84,7 +103,7 @@ export const POST = async (req: Request) => {
 
 
     // Create a provider (you may want to use a different provider based on your setup)
-    const provider = new ethers.JsonRpcProvider('https://testnet.evm.nodes.onflow.org/');
+    const provider = new ethers.JsonRpcProvider('https://testnet.skalenodes.com/v1/giant-half-dual-testnet');
 
     // Get the current nonce for the fromAddress
     const nonce = await provider.getTransactionCount(fromAddress, 'pending');
@@ -118,7 +137,7 @@ export const POST = async (req: Request) => {
     const payload: any = {
       //@ts-ignore
       transaction: serializedTx,
-      message: `Prepared transaction to send ${amount} ETH to ${toAddress}`,
+      message: `Prepared transaction to send ${amount} sFuel to ${toAddress}`,
     };
     console.log('BIG PAYLOAD', payload);
     return Response.json(payload, {
@@ -138,7 +157,6 @@ export const POST = async (req: Request) => {
 function validatedQueryParams(requestUrl: URL) {
   let toAddress: string = '0x742d35Cc6634C0532925a3b844Bc454e4438f44e';
   let amount: number = 0.000001;
-  let imageUrl: string = '';
 
   try {
     if (requestUrl.searchParams.get('to')) {
@@ -146,13 +164,6 @@ function validatedQueryParams(requestUrl: URL) {
     }
   } catch (err) {
     throw 'Invalid input query parameter: to';
-  }
-  try {
-    if (requestUrl.searchParams.get('imageUrl')) {
-      imageUrl = requestUrl.searchParams.get('imageUrl')!;
-    }
-  } catch (err) {
-    throw 'Invalid input query parameter: imageUrl';
   }
 
   try {
@@ -168,6 +179,5 @@ function validatedQueryParams(requestUrl: URL) {
   return {
     amount,
     toAddress,
-    imageUrl,
   };
 }
