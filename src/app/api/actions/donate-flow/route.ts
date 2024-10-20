@@ -19,7 +19,7 @@ export const GET = async (req: Request) => {
     const { toAddress } = validatedQueryParams(requestUrl);
 
     const baseHref = new URL(
-      `/api/actions/donate-flow?to=${toAddress}`,
+      `/api/actions/bet-flow?to=${toAddress}`,
       requestUrl.origin,
     ).toString();
 

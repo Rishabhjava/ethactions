@@ -19,44 +19,25 @@ export const GET = async (req: Request) => {
     const { toAddress } = validatedQueryParams(requestUrl);
 
     const baseHref = new URL(
-      `/api/actions/donate-airdao?to=${toAddress}`,
+      `/api/actions/sell-tickets-flow?to=${toAddress}`,
       requestUrl.origin,
     ).toString();
-    
+
     const payload: any = {
       isEthereum: true,
-      chain: '0x' + BigInt(22040).toString(16),
+      chain: '0x' + BigInt(545).toString(16),
       type: 'action',
-      title: 'Bet on the Lakers winning the NBA Championship?',
-      icon: 'https://i.ibb.co/f4tzp8r/maxresdefault.jpg',
+      title: 'Buy with FLOW AND WIN BIG!',
+      icon: 'https://i.ibb.co/M55QDjC/ticket-Banner.jpg',
       description:
-        'Win 1000 FLOW if the Lakers win the NBA Championship!',
+        'Buy Your Tickets to the Lakers Game with FLOW and WIN BIG!',
       label: 'Transfer', // this value will be ignored since `links.actions` exists
       links: {
         actions: [
           {
-            label: 'Bet 1 FLOW', // button text
-            href: `${baseHref}&amount=${'1'}`,
-          },
-          {
-            label: 'Bet 5 FLOW', // button text
-            href: `${baseHref}&amount=${'5'}`,
-          },
-          {
-            label: 'Bet 10 FLOW', // button text
+            label: 'Buy Tickets Now', // button text
             href: `${baseHref}&amount=${'10'}`,
-          },
-          {
-            label: 'Bet FLOW', // button text
-            href: `${baseHref}&amount={amount}`, // this href will have a text input
-            parameters: [
-              {
-                name: 'amount', // parameter name in the `href` above
-                label: 'Enter the amount of FLOW to bet', // placeholder of the text input
-                required: true,
-              },
-            ],
-          },
+          }
         ],
       },
     };
@@ -103,7 +84,7 @@ export const POST = async (req: Request) => {
 
 
     // Create a provider (you may want to use a different provider based on your setup)
-    const provider = new ethers.JsonRpcProvider('https://network.ambrosus-test.io');
+    const provider = new ethers.JsonRpcProvider('https://testnet.evm.nodes.onflow.org/');
 
     // Get the current nonce for the fromAddress
     const nonce = await provider.getTransactionCount(fromAddress, 'pending');
