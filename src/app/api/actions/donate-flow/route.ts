@@ -27,32 +27,32 @@ export const GET = async (req: Request) => {
       isEthereum: true,
       chain: '0x' + BigInt(545).toString(16),
       type: 'action',
-      title: 'Donate rBTC to Alice',
-      icon: 'https://ucarecdn.com/7aa46c85-08a4-4bc7-9376-88ec48bb1f43/-/preview/880x864/-/quality/smart/-/format/auto/',
+      title: 'Bet on the Lakers winning the NBA Championship?',
+      icon: 'https://i.ibb.co/f4tzp8r/maxresdefault.jpg',
       description:
-        'Use RootStock and Support Alice learning about the Blockchain with rBTC.',
+        'Win 1000 FLOW if the Lakers win the NBA Championship!',
       label: 'Transfer', // this value will be ignored since `links.actions` exists
       links: {
         actions: [
           {
-            label: 'Send 1 FLOW', // button text
+            label: 'Bet 1 FLOW', // button text
             href: `${baseHref}&amount=${'1'}`,
           },
           {
-            label: 'Send 5 FLOW', // button text
+            label: 'Bet 5 FLOW', // button text
             href: `${baseHref}&amount=${'5'}`,
           },
           {
-            label: 'Send 10 FLOW', // button text
+            label: 'Bet 10 FLOW', // button text
             href: `${baseHref}&amount=${'10'}`,
           },
           {
-            label: 'Send FLOW', // button text
+            label: 'Bet FLOW', // button text
             href: `${baseHref}&amount={amount}`, // this href will have a text input
             parameters: [
               {
                 name: 'amount', // parameter name in the `href` above
-                label: 'Enter the amount of FLOW to send', // placeholder of the text input
+                label: 'Enter the amount of FLOW to bet', // placeholder of the text input
                 required: true,
               },
             ],
