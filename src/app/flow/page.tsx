@@ -9,9 +9,8 @@ import { Copy } from "lucide-react"
 
 export default function Flow() {
   const [formData, setFormData] = useState({
-    tab1: { field1: 'Image URL', field2: 'Your Flow Wallet Address' },
-    tab2: { field1: 'Ticket Price', field2: 'Payment Wallet Address' },
-    tab3: { field1: 'Yield', field2: 'Contract Address' },
+    tab1: { field1: 'Team Name', field2: 'Your AirDAO Wallet Address' },
+    tab2: { field1: 'Event Banner', field2: 'Your AirDAO Wallet Address' },
   })
 
   const [activeTab, setActiveTab] = useState('tab1')
@@ -28,7 +27,21 @@ export default function Flow() {
 
   const generateOutputLink = (tab: string) => {
     const { field1, field2 } = formData[tab as keyof typeof formData]
-    return `https://dial.to/?action=solana-action:https://ethactions.vercel.app/api/actions/shop-morph?imageUrl=${field1}&to=${encodeURIComponent(field2)}`
+    let baseUrl = ''
+    
+    switch (tab) {
+      case 'tab1':
+        baseUrl = 'https://ethactions.vercel.app/api/actions/tip-airdao'
+        return `https://dial.to/?action=solana-action:${baseUrl}?to=${encodeURIComponent(field2)}&amount=${encodeURIComponent(field1)}`
+      case 'tab2':
+        baseUrl = 'https://ethactions.vercel.app/api/actions/mint-airdao'
+        return `https://dial.to/?action=solana-action:${baseUrl}?imageUrl=${encodeURIComponent(field1)}&to=${encodeURIComponent(field2)}`
+      case 'tab3':
+        baseUrl = 'https://ethactions.vercel.app/api/actions/airdao-tickets'
+        return `https://dial.to/?action=solana-action:${baseUrl}?imageUrl=${encodeURIComponent(field1)}&to=${encodeURIComponent(field2)}`
+      default:
+        return ''
+    }
   }
 
   const copyToClipboard = (text: string) => {
@@ -40,19 +53,22 @@ export default function Flow() {
   return (
     <div className="min-h-screen bg-background">
       <div className="bg-primary text-primary-foreground p-4">
-        <h1 className="text-2xl font-bold">The Consumer Blockchain on Twitter!</h1>
+        <h1 className="text-2xl font-bold">AirDao: Monetize your Socials (Very Easy) 🔥</h1>
       </div>
       <div className="container mx-auto p-4">
         <Tabs value={activeTab} onValueChange={setActiveTab}>
           <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="tab1">Sell Something!</TabsTrigger>
-            <TabsTrigger value="tab2">Tip Creators!</TabsTrigger>
+            <TabsTrigger value="tab1">Tip Creator</TabsTrigger>
+            <TabsTrigger value="tab2">Mint NFT</TabsTrigger>
+            <TabsTrigger value="tab3">Sell Tickets</TabsTrigger>
           </TabsList>
-          {['tab1', 'tab2'].map((tab) => (
+          {['tab1', 'tab2', 'tab3'].map((tab) => (
             <TabsContent key={tab} value={tab}>
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor={`${tab}-field1`}>{tab === 'tab1' ? 'Image URL' : tab === 'tab2' ? 'Ticket Price' : 'Yield'}</Label>
+                  <Label htmlFor={`${tab}-field1`}>
+                    {tab === 'tab1' ? 'Tip Amount' : tab === 'tab2' ? 'NFT Name' : 'Event Banner'}
+                  </Label>
                   <Input
                     id={`${tab}-field1`}
                     value={formData[tab as keyof typeof formData].field1}
@@ -60,24 +76,28 @@ export default function Flow() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor={`${tab}-field2`}>{tab === 'tab1' ? 'Your ETH Wallet Address' : tab === 'tab2' ? 'Payment Wallet Address' : 'Contract Address'}</Label>
+                  <Label htmlFor={`${tab}-field2`}>Your AirDAO Wallet Address</Label>
                   <Input
                     id={`${tab}-field2`}
                     value={formData[tab as keyof typeof formData].field2}
                     onChange={(e) => handleInputChange(tab, 'field2', e.target.value)}
                   />
                 </div>
-                <div className="flex items-center space-x-2">
-                  <Input
+                <div className="space-y-2">
+                  <Label htmlFor={`${tab}-link`}>Generated Link (Post on Twitter!)</Label>
+                  <div className="flex items-center space-x-2">
+                    <Input
+                    id={`${tab}-link`}
                     value={generateOutputLink(tab)}
                     readOnly
                   />
                   <Button
                     size="icon"
                     onClick={() => copyToClipboard(generateOutputLink(tab))}
-                  >
-                    <Copy className="h-4 w-4" />
-                  </Button>
+                    >
+                      <Copy className="h-4 w-4" />
+                    </Button>
+                  </div>
                 </div>
                 {/* New iframe */}
                 <div className="mt-4">

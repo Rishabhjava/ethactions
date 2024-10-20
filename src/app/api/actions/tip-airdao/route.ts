@@ -27,10 +27,10 @@ export const GET = async (req: Request) => {
       isEthereum: true,
       chain: '0x' + BigInt(22040).toString(16),
       type: 'action',
-      title: 'Tip The Creator with AirDAO!',
+      title: 'Tip with AirDAO!',
       icon: 'https://ucarecdn.com/7aa46c85-08a4-4bc7-9376-88ec48bb1f43/-/preview/880x864/-/quality/smart/-/format/auto/',
       description:
-        'Support your favorite creator with AirDAO!',
+        'Enjoying the content? Support your favorite creator with AirDAO!',
       label: 'Transfer', // this value will be ignored since `links.actions` exists
       links: {
         actions: [

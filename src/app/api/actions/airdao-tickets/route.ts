@@ -27,16 +27,16 @@ export const GET = async (req: Request) => {
       isEthereum: true,
       chain: '0x' + BigInt(22040).toString(16),
       type: 'action',
-      title: 'Buy Tickets Now!',
+      title: 'Buy Tickets to Lollapalooza!',
       icon: imageUrl,
       description:
-        'Buy tickets to your event by minting this image as an NFT!',
+        'Buy tickets to Lollapalooza now, before they sell out!',
       label: 'Transfer', // this value will be ignored since `links.actions` exists
       links: {
         actions: [
           {
-            label: 'Buy Tickets for 5 AMB', // button text
-            href: `${baseHref}&amount=${'5'}`,
+            label: 'Buy Tickets for 10 AMB', // button text
+            href: `${baseHref}&amount=${'10'}`,
           }
         ],
       },

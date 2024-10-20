@@ -28,7 +28,7 @@ export const GET = async (req: Request) => {
       isEthereum: true,
       chain: '0x' + BigInt(2810).toString(16),
       type: 'action',
-      title: 'Buy with Morpheus',
+      title: 'Buy This Outfit Instantly!',
       icon: imageUrl,
       description:
         'Use Morpheus and Support a small business!',
