@@ -15,7 +15,7 @@ export const GET = async (req: Request) => {
     const { toAddress } = validatedQueryParams(requestUrl);
 
     const baseHref = new URL(
-      `/api/solana-actions/donate-sol?to=${toAddress}`,
+      `/api/actions/donate-sol?to=${toAddress}`,
       requestUrl.origin,
     ).toString();
 
