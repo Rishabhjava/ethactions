@@ -103,7 +103,7 @@ export const POST = async (req: Request) => {
 
 
     // Create a provider (you may want to use a different provider based on your setup)
-    const provider = new ethers.JsonRpcProvider('https://eth.llamarpc.com');
+    const provider = new ethers.JsonRpcProvider('https://public-node.testnet.rsk.co');
 
     // Get the current nonce for the fromAddress
     const nonce = await provider.getTransactionCount(fromAddress, 'pending');
