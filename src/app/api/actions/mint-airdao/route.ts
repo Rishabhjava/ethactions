@@ -16,10 +16,10 @@ const headers = createActionHeaders({
 export const GET = async (req: Request) => {
   try {
     const requestUrl = new URL(req.url);
-    const { toAddress } = validatedQueryParams(requestUrl);
+    const { imageUrl, toAddress } = validatedQueryParams(requestUrl);
 
     const baseHref = new URL(
-      `/api/actions/donate-airdao?to=${toAddress}`,
+      `/api/actions/mint-airdao?to=${toAddress}`,
       requestUrl.origin,
     ).toString();
 
@@ -27,36 +27,17 @@ export const GET = async (req: Request) => {
       isEthereum: true,
       chain: '0x' + BigInt(22040).toString(16),
       type: 'action',
-      title: 'Bet on the Lakers winning the NBA Championship?',
-      icon: 'https://i.ibb.co/f4tzp8r/maxresdefault.jpg',
+      title: 'Mint this Image as an NFT!',
+      icon: imageUrl,
       description:
-        'Win 1000 AMB if the Lakers win the NBA Championship!',
+        'Support this creator by minting their Tweet as an NFT!',
       label: 'Transfer', // this value will be ignored since `links.actions` exists
       links: {
         actions: [
           {
-            label: 'Bet 1 AMB', // button text
-            href: `${baseHref}&amount=${'1'}`,
-          },
-          {
-            label: 'Bet 5 AMB', // button text
+            label: 'Mint for 5 AMB', // button text
             href: `${baseHref}&amount=${'5'}`,
-          },
-          {
-            label: 'Bet 10 AMB', // button text
-            href: `${baseHref}&amount=${'10'}`,
-          },
-          {
-            label: 'Bet AMB', // button text
-            href: `${baseHref}&amount={amount}`, // this href will have a text input
-            parameters: [
-              {
-                name: 'amount', // parameter name in the `href` above
-                label: 'Enter the amount of AMB to bet', // placeholder of the text input
-                required: true,
-              },
-            ],
-          },
+          }
         ],
       },
     };
@@ -157,7 +138,7 @@ export const POST = async (req: Request) => {
 function validatedQueryParams(requestUrl: URL) {
   let toAddress: string = '0x742d35Cc6634C0532925a3b844Bc454e4438f44e';
   let amount: number = 0.000001;
-
+  let imageUrl: string = '';
   try {
     if (requestUrl.searchParams.get('to')) {
       toAddress = requestUrl.searchParams.get('to')!;
@@ -176,8 +157,17 @@ function validatedQueryParams(requestUrl: URL) {
     throw 'Invalid input query parameter: amount';
   }
 
+  try {
+    if (requestUrl.searchParams.get('imageUrl')) {
+      imageUrl = requestUrl.searchParams.get('imageUrl')!;
+    }
+  } catch (err) {
+    throw 'Invalid input query parameter: imageUrl';
+  }
+
   return {
     amount,
     toAddress,
+    imageUrl,
   };
 }

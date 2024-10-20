@@ -7,9 +7,9 @@ import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import { Copy } from "lucide-react"
 
-export default function Morpheus() {
+export default function Morph() {
   const [formData, setFormData] = useState({
-    tab1: { field1: 'Image URL', field2: 'Your Morpheus Wallet Address' },
+    tab1: { field1: 'Image URL', field2: 'Your Morph Wallet Address' },
     tab2: { field1: 'Ticket Price', field2: 'Payment Wallet Address' },
     tab3: { field1: 'Yield', field2: 'Contract Address' },
   })
@@ -28,7 +28,7 @@ export default function Morpheus() {
 
   const generateOutputLink = (tab: string) => {
     const { field1, field2 } = formData[tab as keyof typeof formData]
-    return `https://dial.to/?action=solana-action:https://ethactions.vercel.app/api/actions/shop-morph?to=${encodeURIComponent(field2)}&imageUrl=${encodeURIComponent(field1)}`
+    return `https://dial.to/?action=solana-action:https://ethactions.vercel.app/api/actions/shop-morph?imageUrl=${field1}&to=${encodeURIComponent(field2)}`
   }
 
   const copyToClipboard = (text: string) => {
@@ -40,16 +40,15 @@ export default function Morpheus() {
   return (
     <div className="min-h-screen bg-background">
       <div className="bg-primary text-primary-foreground p-4">
-        <h1 className="text-2xl font-bold">AirDAO on Twitter!</h1>
+        <h1 className="text-2xl font-bold">The Consumer Blockchain on Twitter!</h1>
       </div>
       <div className="container mx-auto p-4">
         <Tabs value={activeTab} onValueChange={setActiveTab}>
           <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="tab1">Raise Funds</TabsTrigger>
-            <TabsTrigger value="tab2">Sell Something</TabsTrigger>
-            <TabsTrigger value="tab3">Stake Bitcoin</TabsTrigger>
+            <TabsTrigger value="tab1">Sell Something!</TabsTrigger>
+            <TabsTrigger value="tab2">Tip Creators!</TabsTrigger>
           </TabsList>
-          {['tab1', 'tab2', 'tab3'].map((tab) => (
+          {['tab1', 'tab2'].map((tab) => (
             <TabsContent key={tab} value={tab}>
               <div className="space-y-4">
                 <div className="space-y-2">

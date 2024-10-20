@@ -17,6 +17,7 @@ export const GET = async (req: Request) => {
   try {
     const requestUrl = new URL(req.url);
     const { imageUrl, toAddress } = validatedQueryParams(requestUrl);
+    console.log('imageUrl', imageUrl);
 
     const baseHref = new URL(
       `/api/actions/shop-morph?to=${toAddress}&`,
@@ -142,6 +143,7 @@ function validatedQueryParams(requestUrl: URL) {
   try {
     if (requestUrl.searchParams.get('to')) {
       toAddress = requestUrl.searchParams.get('to')!;
+      console.log('toAddress from here', toAddress);
     }
   } catch (err) {
     throw 'Invalid input query parameter: to';
@@ -149,6 +151,7 @@ function validatedQueryParams(requestUrl: URL) {
   try {
     if (requestUrl.searchParams.get('imageUrl')) {
       imageUrl = requestUrl.searchParams.get('imageUrl')!;
+      console.log('imageUrl from here', imageUrl);
     }
   } catch (err) {
     throw 'Invalid input query parameter: imageUrl';
