@@ -10,8 +10,8 @@ import { Copy } from "lucide-react"
 export default function Rootstock() {
   const [formData, setFormData] = useState({
     tab1: { field1: 'Your Name', field2: 'Your Rootstock Wallet Address' },
-    tab2: { field1: 'Ticket Price', field2: 'Payment Wallet Address' },
-    tab3: { field1: 'Yield', field2: 'Contract Address' },
+    tab2: { field1: 'Sell Something!', field2: 'Your Rootstock Wallet Address' },
+    tab3: { field1: 'https://i.pinimg.com/originals/8f/b1/73/8fb1736ec8511594d46dfd83d1533c7b.jpg', field2: 'Your Rootstock Wallet Address' },
   })
 
   const [activeTab, setActiveTab] = useState('tab1')
@@ -28,7 +28,21 @@ export default function Rootstock() {
 
   const generateOutputLink = (tab: string) => {
     const { field1, field2 } = formData[tab as keyof typeof formData]
-    return `https://dial.to/?action=solana-action:https://ethactions.vercel.app/api/actions/donate-rbtc?to=${encodeURIComponent(field2)}`
+    let baseUrl = ''
+    
+    switch (tab) {
+      case 'tab1':
+        baseUrl = 'https://ethactions.vercel.app/api/actions/donate-rbtc'
+        return `https://dial.to/?action=solana-action:${baseUrl}?to=${encodeURIComponent(field2)}&amount=${encodeURIComponent(field1)}`
+      case 'tab2':
+        baseUrl = 'https://ethactions.vercel.app/api/actions/shop-morph'
+        return `https://dial.to/?action=solana-action:${baseUrl}?imageUrl=${encodeURIComponent(field1)}&to=${encodeURIComponent(field2)}`
+      case 'tab3':
+        baseUrl = 'https://ethactions.vercel.app/api/actions/shop-morph'
+        return `https://dial.to/?action=solana-action:${baseUrl}?imageUrl=${encodeURIComponent(field1)}&to=${encodeURIComponent(field2)}`
+      default:
+        return ''
+    }
   }
 
   const copyToClipboard = (text: string) => {
@@ -40,20 +54,22 @@ export default function Rootstock() {
   return (
     <div className="min-h-screen bg-background">
       <div className="bg-primary text-primary-foreground p-4">
-        <h1 className="text-2xl font-bold">Rootstock on Twitter!</h1>
+        <h1 className="text-2xl font-bold">Morph: Make Money from your Socials (Very Easy) 🔥</h1>
       </div>
       <div className="container mx-auto p-4">
         <Tabs value={activeTab} onValueChange={setActiveTab}>
           <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="tab1">Raise Funds</TabsTrigger>
-            <TabsTrigger value="tab2">Sell Something</TabsTrigger>
-            <TabsTrigger value="tab3">Stake Bitcoin</TabsTrigger>
+            <TabsTrigger value="tab1">Tip Creator</TabsTrigger>
+            <TabsTrigger value="tab2">Sell Clothes</TabsTrigger>
+            <TabsTrigger value="tab3">Sell Tickets</TabsTrigger>
           </TabsList>
           {['tab1', 'tab2', 'tab3'].map((tab) => (
             <TabsContent key={tab} value={tab}>
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor={`${tab}-field1`}>{tab === 'tab1' ? 'Your Name' : tab === 'tab2' ? 'Ticket Price' : 'Yield'}</Label>
+                  <Label htmlFor={`${tab}-field1`}>
+                    {tab === 'tab1' ? 'Your Name' : tab === 'tab2' ? 'Product Image' : 'Event Banner'}
+                  </Label>
                   <Input
                     id={`${tab}-field1`}
                     value={formData[tab as keyof typeof formData].field1}
@@ -61,24 +77,28 @@ export default function Rootstock() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor={`${tab}-field2`}>{tab === 'tab1' ? 'Your Rootstock Wallet Address' : tab === 'tab2' ? 'Payment Wallet Address' : 'Contract Address'}</Label>
+                  <Label htmlFor={`${tab}-field2`}>Your Morph Wallet Address</Label>
                   <Input
                     id={`${tab}-field2`}
                     value={formData[tab as keyof typeof formData].field2}
                     onChange={(e) => handleInputChange(tab, 'field2', e.target.value)}
                   />
                 </div>
-                <div className="flex items-center space-x-2">
-                  <Input
+                <div className="space-y-2">
+                  <Label htmlFor={`${tab}-link`}>Generated Link (Post on Twitter!)</Label>
+                  <div className="flex items-center space-x-2">
+                    <Input
+                    id={`${tab}-link`}
                     value={generateOutputLink(tab)}
                     readOnly
                   />
                   <Button
                     size="icon"
                     onClick={() => copyToClipboard(generateOutputLink(tab))}
-                  >
-                    <Copy className="h-4 w-4" />
-                  </Button>
+                    >
+                      <Copy className="h-4 w-4" />
+                    </Button>
+                  </div>
                 </div>
                 {/* New iframe */}
                 <div className="mt-4">
