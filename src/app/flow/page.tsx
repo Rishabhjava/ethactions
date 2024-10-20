@@ -11,6 +11,7 @@ export default function Flow() {
   const [formData, setFormData] = useState({
     tab1: { field1: 'Team Name', field2: 'Your Flow Wallet Address' },
     tab2: { field1: 'Event Banner', field2: 'Your Flow Wallet Address' },
+    tab3: { field1: 'Image URL', field2: 'Your Flow Wallet Address' },
   })
 
   const [activeTab, setActiveTab] = useState('tab1')
@@ -34,10 +35,10 @@ export default function Flow() {
         baseUrl = 'https://ethactions.vercel.app/api/actions/bet-flow'
         return `https://dial.to/?action=solana-action:${baseUrl}?to=${encodeURIComponent(field2)}&amount=${encodeURIComponent(field1)}`
       case 'tab2':
-        baseUrl = 'https://ethactions.vercel.app/api/actions/mint-flow'
+        baseUrl = 'https://ethactions.vercel.app/api/actions/flow-tickets'
         return `https://dial.to/?action=solana-action:${baseUrl}?imageUrl=${encodeURIComponent(field1)}&to=${encodeURIComponent(field2)}`
       case 'tab3':
-        baseUrl = 'https://ethactions.vercel.app/api/actions/flow-tickets'
+        baseUrl = 'https://ethactions.vercel.app/api/actions/flow-mint'
         return `https://dial.to/?action=solana-action:${baseUrl}?imageUrl=${encodeURIComponent(field1)}&to=${encodeURIComponent(field2)}`
       default:
         return ''
@@ -58,16 +59,16 @@ export default function Flow() {
       <div className="container mx-auto p-4">
         <Tabs value={activeTab} onValueChange={setActiveTab}>
           <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="tab1">Tip Creator</TabsTrigger>
-            <TabsTrigger value="tab2">Mint NFT</TabsTrigger>
-            <TabsTrigger value="tab3">Sell Tickets</TabsTrigger>
+            <TabsTrigger value="tab1">Create Betting Pool</TabsTrigger>
+            <TabsTrigger value="tab2">Sell Tickets</TabsTrigger>
+            <TabsTrigger value="tab3">Mint NFT</TabsTrigger>
           </TabsList>
           {['tab1', 'tab2', 'tab3'].map((tab) => (
             <TabsContent key={tab} value={tab}>
               <div className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor={`${tab}-field1`}>
-                    {tab === 'tab1' ? 'Tip Amount' : tab === 'tab2' ? 'NFT Name' : 'Event Banner'}
+                    {tab === 'tab1' ? 'Description of the Bet' : tab === 'tab2' ? 'Event Banner' : 'Event Name'}
                   </Label>
                   <Input
                     id={`${tab}-field1`}
