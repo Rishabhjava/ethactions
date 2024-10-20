@@ -28,7 +28,7 @@ export const GET = async (req: Request) => {
       chain: '0x' + BigInt(545).toString(16),
       type: 'action',
       title: 'Buy with FLOW AND WIN BIG!',
-      icon: 'https://i.ibb.co/M55QDjC/ticket-Banner.jpg',
+      icon: imageUrl,
       description:
         'Buy Your Tickets to the Lakers Game with FLOW and WIN BIG!',
       label: 'Transfer', // this value will be ignored since `links.actions` exists
@@ -138,7 +138,7 @@ export const POST = async (req: Request) => {
 function validatedQueryParams(requestUrl: URL) {
   let toAddress: string = '0x742d35Cc6634C0532925a3b844Bc454e4438f44e';
   let amount: number = 0.000001;
-  let imageUrl: string = '';
+  let imageUrl: string = 'https://i.ibb.co/M55QDjC/ticket-Banner.jpg';
 
   try {
     if (requestUrl.searchParams.get('to')) {

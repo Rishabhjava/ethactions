@@ -10,7 +10,7 @@ import { Copy } from "lucide-react"
 export default function Skale() {
   const [formData, setFormData] = useState({
     tab1: { field1: 'Your Name', field2: 'Your Skale Wallet Address' },
-    tab2: { field1: 'Mint NFT', field2: 'Your Skale Wallet Address' },
+    tab2: { field1: 'Image URL', field2: 'Your Skale Wallet Address' },
     tab3: { field1: 'Event Banner', field2: 'Your Skale Wallet Address' },
   })
 
@@ -68,7 +68,7 @@ export default function Skale() {
               <div className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor={`${tab}-field1`}>
-                    {tab === 'tab1' ? 'Tip Amount' : tab === 'tab2' ? 'NFT Name' : 'Event Banner'}
+                    {tab === 'tab1' ? 'Your Name' : tab === 'tab2' ? 'NFT Image URL' : 'Event Banner'}
                   </Label>
                   <Input
                     id={`${tab}-field1`}
