@@ -9,7 +9,7 @@ import { Copy } from "lucide-react"
 
 export default function Morpheus() {
   const [formData, setFormData] = useState({
-    tab1: { field1: 'Your Name', field2: 'Your Morpheus Wallet Address' },
+    tab1: { field1: 'Image URL', field2: 'Your Morpheus Wallet Address' },
     tab2: { field1: 'Ticket Price', field2: 'Payment Wallet Address' },
     tab3: { field1: 'Yield', field2: 'Contract Address' },
   })
@@ -28,7 +28,7 @@ export default function Morpheus() {
 
   const generateOutputLink = (tab: string) => {
     const { field1, field2 } = formData[tab as keyof typeof formData]
-    return `https://dial.to/?action=solana-action:https://ethactions.vercel.app/api/actions/donate-rbtc?to=${encodeURIComponent(field2)}`
+    return `https://dial.to/?action=solana-action:https://ethactions.vercel.app/api/actions/shop-morph?to=${encodeURIComponent(field2)}&imageUrl=${encodeURIComponent(field1)}`
   }
 
   const copyToClipboard = (text: string) => {
@@ -53,7 +53,7 @@ export default function Morpheus() {
             <TabsContent key={tab} value={tab}>
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor={`${tab}-field1`}>{tab === 'tab1' ? 'Your Name' : tab === 'tab2' ? 'Ticket Price' : 'Yield'}</Label>
+                  <Label htmlFor={`${tab}-field1`}>{tab === 'tab1' ? 'Image URL' : tab === 'tab2' ? 'Ticket Price' : 'Yield'}</Label>
                   <Input
                     id={`${tab}-field1`}
                     value={formData[tab as keyof typeof formData].field1}
@@ -61,7 +61,7 @@ export default function Morpheus() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor={`${tab}-field2`}>{tab === 'tab1' ? 'Your AirDAO Wallet Address' : tab === 'tab2' ? 'Payment Wallet Address' : 'Contract Address'}</Label>
+                  <Label htmlFor={`${tab}-field2`}>{tab === 'tab1' ? 'Your ETH Wallet Address' : tab === 'tab2' ? 'Payment Wallet Address' : 'Contract Address'}</Label>
                   <Input
                     id={`${tab}-field2`}
                     value={formData[tab as keyof typeof formData].field2}
