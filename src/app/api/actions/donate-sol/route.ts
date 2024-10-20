@@ -5,24 +5,17 @@ import {
   ActionPostRequest,
   createActionHeaders,
 } from '@solana/actions';
-import {
-  clusterApiUrl,
-  Connection,
-  LAMPORTS_PER_SOL,
-  PublicKey,
-  SystemProgram,
-  Transaction,
-} from '@solana/web3.js';
+import { ethers } from 'ethers';
 
 const headers = createActionHeaders();
 
 export const GET = async (req: Request) => {
   try {
     const requestUrl = new URL(req.url);
-    const { toPubkey } = validatedQueryParams(requestUrl);
+    const { toAddress } = validatedQueryParams(requestUrl);
 
     const baseHref = new URL(
-      `/api/solana-actions/donate-sol?to=${toPubkey.toBase58()}`,
+      `/api/solana-actions/donate-sol?to=${toAddress}`,
       requestUrl.origin,
     ).toString();
 
@@ -86,14 +79,14 @@ export const OPTIONS = async (req: Request) => {
 export const POST = async (req: Request) => {
   try {
     const requestUrl = new URL(req.url);
-    const { amount, toPubkey } = validatedQueryParams(requestUrl);
+    const { amount, toAddress } = validatedQueryParams(requestUrl);
 
     const body: ActionPostRequest = await req.json();
 
-    // validate the client provided input
-    let account: PublicKey;
+    // Validate the client provided input
+    let fromAddress: string;
     try {
-      account = new PublicKey(body.account);
+      fromAddress = ethers.getAddress(body.account);
     } catch (err) {
       return new Response('Invalid "account" provided', {
         status: 400,
@@ -101,53 +94,42 @@ export const POST = async (req: Request) => {
       });
     }
 
-    const connection = new Connection(
-      process.env.SOLANA_RPC! || clusterApiUrl('mainnet-beta'),
-    );
+    // Create a provider (you may want to use a different provider based on your setup)
+    const provider = new ethers.JsonRpcProvider('https://eth.llamarpc.com');
 
-    // ensure the receiving account will be rent exempt
-    const minimumBalance = await connection.getMinimumBalanceForRentExemption(
-      0, // note: simple accounts that just store native SOL have `0` bytes of data
-    );
-    if (amount * LAMPORTS_PER_SOL < minimumBalance) {
-      throw `account may not be rent exempt: ${toPubkey.toBase58()}`;
-    }
+    // Get the current nonce for the fromAddress
+    const nonce = await provider.getTransactionCount(fromAddress, 'pending');
 
-    // create an instruction to transfer native SOL from one wallet to another
-    const transferSolInstruction = SystemProgram.transfer({
-      fromPubkey: account,
-      toPubkey: toPubkey,
-      lamports: amount * LAMPORTS_PER_SOL,
+    // Get the current gas price
+    const feeData = await provider.getFeeData();
+    const gasPrice = feeData.gasPrice;
+
+    // Estimate the gas limit
+    const gasLimit = await provider.estimateGas({
+      to: toAddress,
+      value: ethers.parseEther(amount.toString()),
+      from: fromAddress,
     });
 
-    // get the latest blockhash amd block height
-    const { blockhash, lastValidBlockHeight } =
-      await connection.getLatestBlockhash();
+    // Construct the transaction
+    const transaction = {
+      to: toAddress,
+      value: ethers.parseEther(amount.toString()),
+      gasPrice: gasPrice,
+      gasLimit: gasLimit,
+      nonce: nonce,
+      chainId: (await provider.getNetwork()).chainId,
+    };
 
-    // create a legacy transaction
-    const transaction = new Transaction({
-      feePayer: account,
-      blockhash,
-      lastValidBlockHeight,
-    }).add(transferSolInstruction);
-
-    // versioned transactions are also supported
-    // const transaction = new VersionedTransaction(
-    //   new TransactionMessage({
-    //     payerKey: account,
-    //     recentBlockhash: blockhash,
-    //     instructions: [transferSolInstruction],
-    //   }).compileToV0Message(),
-    //   // note: you can also use `compileToLegacyMessage`
-    // );
+    // Serialize the transaction
+    const serializedTx = ethers.Transaction.from(transaction).serialized;
 
     const payload: ActionPostResponse = await createPostResponse({
       fields: {
-        transaction,
-        message: `Sent ${amount} SOL to Alice: ${toPubkey.toBase58()}`,
+        // @ts-ignore
+        transaction: serializedTx,
+        message: `Prepared transaction to send ${amount} ETH to ${toAddress}`,
       },
-      // note: no additional signers are needed
-      // signers: [],
     });
 
     return Response.json(payload, {
@@ -165,14 +147,12 @@ export const POST = async (req: Request) => {
 };
 
 function validatedQueryParams(requestUrl: URL) {
-  let toPubkey: PublicKey = new PublicKey(
-    'FWXHZxDocgchBjADAxSuyPCVhh6fNLT7DUggabAsuz1y',
-  );
+  let toAddress: string = '0x742d35Cc6634C0532925a3b844Bc454e4438f44e';
   let amount: number = 0.1;
 
   try {
     if (requestUrl.searchParams.get('to')) {
-      toPubkey = new PublicKey(requestUrl.searchParams.get('to')!);
+      toAddress = requestUrl.searchParams.get('to')!;
     }
   } catch (err) {
     throw 'Invalid input query parameter: to';
@@ -190,6 +170,6 @@ function validatedQueryParams(requestUrl: URL) {
 
   return {
     amount,
-    toPubkey,
+    toAddress,
   };
 }
