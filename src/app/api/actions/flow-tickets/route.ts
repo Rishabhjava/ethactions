@@ -19,7 +19,7 @@ export const GET = async (req: Request) => {
     const { toAddress } = validatedQueryParams(requestUrl);
 
     const baseHref = new URL(
-      `/api/actions/sell-tickets-flow?to=${toAddress}`,
+      `/api/actions/flow-tickets?to=${toAddress}`,
       requestUrl.origin,
     ).toString();
 
