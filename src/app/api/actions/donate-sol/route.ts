@@ -25,6 +25,7 @@ export const GET = async (req: Request) => {
 
     const payload: any = {
       isEthereum: true,
+      chain: '0x' + BigInt(31).toString(16),
       type: 'action',
       title: 'Donate SOL to Alice',
       icon: 'https://ucarecdn.com/7aa46c85-08a4-4bc7-9376-88ec48bb1f43/-/preview/880x864/-/quality/smart/-/format/auto/',
@@ -99,6 +100,7 @@ export const POST = async (req: Request) => {
         headers,
       });
     }
+
 
     // Create a provider (you may want to use a different provider based on your setup)
     const provider = new ethers.JsonRpcProvider('https://eth.llamarpc.com');
