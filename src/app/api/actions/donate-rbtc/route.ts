@@ -19,7 +19,7 @@ export const GET = async (req: Request) => {
     const { toAddress } = validatedQueryParams(requestUrl);
 
     const baseHref = new URL(
-      `/api/actions/donate-sol?to=${toAddress}`,
+      `/api/actions/donate-rbtc?to=${toAddress}`,
       requestUrl.origin,
     ).toString();
 
@@ -27,10 +27,10 @@ export const GET = async (req: Request) => {
       isEthereum: true,
       chain: '0x' + BigInt(31).toString(16),
       type: 'action',
-      title: 'Donate SOL to Alice',
+      title: 'Donate rBTC to Alice',
       icon: 'https://ucarecdn.com/7aa46c85-08a4-4bc7-9376-88ec48bb1f43/-/preview/880x864/-/quality/smart/-/format/auto/',
       description:
-        'Cybersecurity Enthusiast | Support my research with a donation.',
+        'Use RootStock and Support Alice learning about the Blockchain with rBTC.',
       label: 'Transfer', // this value will be ignored since `links.actions` exists
       links: {
         actions: [
