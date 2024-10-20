@@ -35,10 +35,10 @@ export default function Rootstock() {
         baseUrl = 'https://ethactions.vercel.app/api/actions/donate-rbtc'
         return `https://dial.to/?action=solana-action:${baseUrl}?to=${encodeURIComponent(field2)}&amount=${encodeURIComponent(field1)}`
       case 'tab2':
-        baseUrl = 'https://ethactions.vercel.app/api/actions/shop-morph'
+        baseUrl = 'https://ethactions.vercel.app/api/actions/shop-rbtc'
         return `https://dial.to/?action=solana-action:${baseUrl}?imageUrl=${encodeURIComponent(field1)}&to=${encodeURIComponent(field2)}`
       case 'tab3':
-        baseUrl = 'https://ethactions.vercel.app/api/actions/shop-morph'
+        baseUrl = 'https://ethactions.vercel.app/api/actions/shop-rbtc'
         return `https://dial.to/?action=solana-action:${baseUrl}?imageUrl=${encodeURIComponent(field1)}&to=${encodeURIComponent(field2)}`
       default:
         return ''
